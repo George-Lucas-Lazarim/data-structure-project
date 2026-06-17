@@ -86,7 +86,7 @@ EngineSensorsData getNextSensorsDataBlock (void) {
     } else current_rpm -= 180.0f; // Freio motor
 
     if (current_rpm > 7200.0f) current_rpm = 7200.0f; // Corte
-    else if (current_rpm < 900.0f) { current_rpm = 900.0f + randomFloat(-15.0, 15.0); // Leve oscilação na marcha lenta
+    else if (current_rpm < 900.0f) current_rpm = 900.0f + randomFloat(-15.0, 15.0); // Leve oscilação na marcha lenta
 
     data.rpm = (uint16_t) current_rpm;
 
