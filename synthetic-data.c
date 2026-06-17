@@ -109,16 +109,16 @@ EngineSensorsData getNextSensorsDataBlock (void) {
     data.temperature = current_temp;
 
     // Fadiga e Quebra
-    if (current_rpm > 6800.0f) engine_stress += 0.5f;
+    if (current_rpm > 6800.0f) engine_stress += 0.3f;
     if (current_temp > 105.0f) engine_stress += 2.0f;
-    if (current_boost > 1.2f) engine_stress += 1.5f;
+    if (current_boost > 1.3f) engine_stress += 1.5f;
 
     if (current_rpm < 4000.0f && current_temp < 95.0f && engine_stress >= 0.3f) engine_stress -= 0.3f;
 
     if (engine_stress > 250.0f) {
         float random_number = randomFloat(0.0f, 10000.0f);
 
-        if (random_number < (engine_stress * 0.3f) && turbo_blown) turbo_blown = false; // Turbina quebrou
+        if (random_number < (engine_stress * 0.25f) && turbo_blown) turbo_blown = false; // Turbina quebrou
         else if (random_number < (engine_stress * 0.05f) && oil_pump_working) oil_pump_working = false;
     }
 
