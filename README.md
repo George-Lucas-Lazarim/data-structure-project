@@ -7,7 +7,7 @@ O sistema atua como o módulo de telemetria e registrador de dados de uma Unidad
 - Rotação do motor (RPM)
 - Pressão do óleo e do turbocompressor
 - Temperatura do líquido de arrefecimento
-- Posição da borboleta (TPS) e velocidade
+- Posição da borboleta (TPS)
 
 O *dataset* consistirá em um fluxo contínuo de pelo menos 10.000 amostras sintéticas, com a introdução de ruído gaussiano para simular anomalias de leitura, permitindo a execução de operações de inserção, remoção, busca, detecção de anomalias e filtragem de logs.
 
