@@ -24,10 +24,10 @@ bool searchDataStaticCircularQueue (StaticCircularQueue *q, uint32_t time, Engin
 // Funções adicionais
 float averageRPMStaticCircularQueue (StaticCircularQueue *q);
 float temperatureRateStaticCircularQueue (StaticCircularQueue *q);
-float boostSurgeStaticCircularQueue (StaticCircularQueue *q);
+float maxTurboPressureStaticCircularQueue (StaticCircularQueue *q);
 
 // Fila dinâmica
-typedef struct {
+typedef struct DynamicQueueNode {
     EngineSensorsData data;
     struct DynamicQueueNode *next;
 } DynamicQueueNode;
