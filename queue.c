@@ -108,8 +108,114 @@ void initDynamicQueue (DynamicQueue *q) {
         printf("\nErro! O ponteiro da fila dinamica esta apontando para NULL");
         return;
     }
-    
+
     q->start = NULL;
     q->end = NULL;
     q->total_elements = 0;
+}
+
+bool enqueueDynamicQueue (DynamicQueue *q, EngineSensorsData data) {
+    if (q == NULL) {
+        printf("\nErro! A fila nao foi inicializada");
+        return false;
+    }
+
+    DynamicQueueNode *new_node = (DynamicQueueNode*) malloc (sizeof(DynamicQueueNode));
+    if (new_node == NULL) return false;
+
+    new_node->data = data;
+    new_node->next = NULL;
+
+    if (q->total_elements == 0) q->start = new_node;
+    else q->end->next = new_node;
+
+    q->end = new_node;
+    q->total_elements++;
+
+    return true;
+}
+
+bool dequeueDynamicQueue (DynamicQueue *q, EngineSensorsData *data) {
+    if (q == NULL) {
+        printf("\nErro! A fila nao foi inicializada");
+        return false;
+    } else if (q->total_elements == 0) return false;
+
+    DynamicQueueNode *aux = q->start;
+    *data = aux->data;
+
+    q->start = q->start->next;
+    
+    if (q->start == NULL) q->end = NULL;
+
+    free(aux);
+    q->total_elements--;
+
+    return true;
+}
+
+bool searchDataDynamicQueue (DynamicQueue *q, uint32_t time, EngineSensorsData *data) {
+    if (q == NULL) {
+        printf("\nErro! A fila nao foi inicializada");
+        return false;
+    } else if (q->total_elements == 0 || time < 0) return false;
+
+    DynamicQueueNode *aux = q->start;
+
+    while (aux != NULL) {
+        if (aux->data.time_ms == time) {
+            *data = aux->data;
+            return true;
+        } else aux = aux->next;
+    }
+
+    return false;
+}
+
+float averageRPMDynamicQueue (DynamicQueue *q) {
+    if (q == NULL) {
+        printf("\nErro! A fila nao foi inicializada");
+        return 0.0f;
+    } else if (q->total_elements == 0) return 0.0f;
+
+    uint32_t rpm_sum = 0;
+    DynamicQueueNode *aux = q->start;
+
+    while (aux != NULL) {
+        rpm_sum += aux->data.rpm;
+        aux = aux->next;
+    }
+
+    return (float) rpm_sum / q->total_elements;
+}
+
+float temperatureRateDynamicQueue (DynamicQueue *q) {
+    if (q == NULL) {
+        printf("\nErro! A fila nao foi inicializada");
+        return 0.0f;
+    } else if (q->total_elements < 2) return 0.0f;
+
+    float delta_temp = q->end->data.temperature - q->start->data.temperature;
+    uint32_t delta_time_ms = q->end->data.time_ms - q->start->data.time_ms;
+
+    if (delta_time_ms == 0) return 0.0f;
+
+    return (float) 1000 * delta_temp / delta_time_ms; // °C/s
+}
+
+float maxTurboPressureDynamicQueue (DynamicQueue *q) {
+    if (q == NULL) {
+        printf("\nErro! A fila nao foi inicializada");
+        return 0.0f;
+    } else if (q->total_elements == 0) return 0.0f;
+
+    float max_turbo_pressure = -100.0f;
+    DynamicQueueNode *aux = q->start;
+
+    while (aux != NULL) {
+        if (aux->data.turbo_pressure > max_turbo_pressure) max_turbo_pressure = aux->data.turbo_pressure;
+        aux = aux->next;
+    }
+
+    return max_turbo_pressure;
 }

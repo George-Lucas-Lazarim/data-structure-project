@@ -47,6 +47,6 @@ bool searchDataDynamicQueue (DynamicQueue *q, uint32_t time, EngineSensorsData *
 // Funções adicionais
 float averageRPMDynamicQueue (DynamicQueue *q);
 float temperatureRateDynamicQueue (DynamicQueue *q);
-float boostSurgeDynamicQueue (DynamicQueue *q);
+float maxTurboPressureDynamicQueue (DynamicQueue *q);
 
 #endif
