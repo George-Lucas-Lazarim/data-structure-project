@@ -4,7 +4,7 @@
 
 void initStaticCircularQueue (StaticCircularQueue *q) {
     if (q == NULL) {
-        printf("\nErro! O ponteiro da fila esta apontando para NULL");
+        printf("\nErro! O ponteiro da fila circular estatica esta apontando para NULL");
         return;
     }
 
@@ -101,4 +101,15 @@ float maxTurboPressureStaticCircularQueue (StaticCircularQueue *q) {
     }
 
     return max_turbo_pressure;
+}
+
+void initDynamicQueue (DynamicQueue *q) {
+    if (q == NULL) {
+        printf("\nErro! O ponteiro da fila dinamica esta apontando para NULL");
+        return;
+    }
+    
+    q->start = NULL;
+    q->end = NULL;
+    q->total_elements = 0;
 }
