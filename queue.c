@@ -47,11 +47,13 @@ bool searchDataStaticCircularQueue (StaticCircularQueue *q, uint32_t time, Engin
         return false;
     } else if (q->total_elements == 0) return false;
 
+    uint16_t i = q->start;
+
     for (int j = 0; j < q->total_elements; j++) {
-        if (q->data[(q->start + j) % QUEUE_SIZE].time_ms == time) {
-            *data = q->data[(q->start + j) % QUEUE_SIZE];
+        if (q->data[i].time_ms == time) {
+            *data = q->data[i];
             return true;
-        }
+        } else i = (i + 1) % QUEUE_SIZE;
     }
 
     return false;
@@ -82,4 +84,21 @@ float temperatureRateStaticCircularQueue (StaticCircularQueue *q) {
     if (delta_time_ms == 0) return 0.0f;
 
     return (float) 1000 * delta_temp / delta_time_ms; // °C/s
+}
+
+float maxTurboPressureStaticCircularQueue (StaticCircularQueue *q) {
+    if (q == NULL) {
+        printf("\nErro! A fila nao foi inicializada");
+        return 0.0f;
+    } else if (q->total_elements == 0) return 0.0f;
+
+    float max_turbo_pressure = -100.0f;
+
+    for (int i = 0; i < q->total_elements; i++) {
+        float current_turbo_pressure = q->data[(q->start + i) % QUEUE_SIZE].turbo_pressure;
+
+        if (current_turbo_pressure > max_turbo_pressure) max_turbo_pressure = current_turbo_pressure;
+    }
+
+    return max_turbo_pressure;
 }
