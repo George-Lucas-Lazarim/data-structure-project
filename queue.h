@@ -6,7 +6,7 @@
 #include "synthetic-data.h"
 
 // Fila estática
-#define QUEUE_SIZE 10000
+#define QUEUE_SIZE 10000 // O máximo é 65535 (passando disso uint16_t para o start e o end não suportam mais)
 
 typedef struct {
     EngineSensorsData data[QUEUE_SIZE];

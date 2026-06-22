@@ -40,3 +40,21 @@ bool dequeueStaticCircularQueue (StaticCircularQueue *q, EngineSensorsData *data
 
     return true;
 }
+
+bool searchDataStaticCircularQueue (StaticCircularQueue *q, uint32_t time, EngineSensorsData *data) {
+    if (q == NULL) {
+        printf("\nErro! A fila nao foi inicializada");
+        return false;
+    } else if (q->total_elements == 0) return false;
+
+    uint16_t i = q->start;
+
+    for (int j = 0; j < q->total_elements; j++) {
+        if (q->data[i].time_ms == time) {
+            *data = q->data[i];
+            return true;
+        } else i = (i + 1) % QUEUE_SIZE;
+    }
+
+    return false;
+}
