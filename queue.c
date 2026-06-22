@@ -12,3 +12,19 @@ void initStaticCircularQueue (StaticCircularQueue *q) {
     q->end = -1;
     q->total_elements = 0;
 }
+
+bool enqueueStaticCircularQueue (StaticCircularQueue *q, EngineSensorsData data) {
+    if (q == NULL) {
+        printf("\nErro! A fila nao foi inicializada");
+        return false;
+    } else if (q->total_elements == QUEUE_SIZE) {
+        return false;
+    }
+
+    q->end = (q->end + 1) % QUEUE_SIZE; // Nunca passa de (QUEUE_SIZE - 1)
+
+    q->data[q->end] = data;
+    q->total_elements++;
+
+    return true;
+}

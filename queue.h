@@ -6,13 +6,13 @@
 #include "synthetic-data.h"
 
 // Fila estática
-#define QUEUE_SIZE 100
+#define QUEUE_SIZE 10000
 
 typedef struct {
     EngineSensorsData data[QUEUE_SIZE];
-    uint8_t start;
-    uint8_t end;
-    uint8_t total_elements;
+    uint16_t start;
+    uint16_t end;
+    uint16_t total_elements;
 } StaticCircularQueue;
 
 // Funções básicas
