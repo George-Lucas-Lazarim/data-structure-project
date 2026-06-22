@@ -47,14 +47,25 @@ bool searchDataStaticCircularQueue (StaticCircularQueue *q, uint32_t time, Engin
         return false;
     } else if (q->total_elements == 0) return false;
 
-    uint16_t i = q->start;
-
     for (int j = 0; j < q->total_elements; j++) {
-        if (q->data[i].time_ms == time) {
-            *data = q->data[i];
+        if (q->data[(q->start + j) % QUEUE_SIZE].time_ms == time) {
+            *data = q->data[(q->start + j) % QUEUE_SIZE];
             return true;
-        } else i = (i + 1) % QUEUE_SIZE;
+        }
     }
 
     return false;
+}
+
+float averageRPMStaticCircularQueue (StaticCircularQueue *q) {
+    if (q == NULL) {
+        printf("\nErro! A fila nao foi inicializada");
+        return 0.0f;
+    } else if (q->total_elements == 0) return 0.0f;
+
+    uint32_t rpm_sum = 0;
+
+    for (int j = 0; j < q->total_elements; j++) rpm_sum += q->data[(q->start + j) % QUEUE_SIZE].rpm;
+
+    return (float) rpm_sum / q->total_elements;
 }
