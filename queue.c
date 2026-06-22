@@ -69,3 +69,17 @@ float averageRPMStaticCircularQueue (StaticCircularQueue *q) {
 
     return (float) rpm_sum / q->total_elements;
 }
+
+float temperatureRateStaticCircularQueue (StaticCircularQueue *q) {
+    if (q == NULL) {
+        printf("\nErro! A fila nao foi inicializada");
+        return 0.0f;
+    } else if (q->total_elements < 2) return 0.0f;
+
+    float delta_temp = q->data[q->end].temperature - q->data[q->start].temperature;
+    uint32_t delta_time_ms = q->data[q->end].time_ms - q->data[q->start].time_ms;
+
+    if (delta_time_ms == 0) return 0.0f;
+
+    return (float) 1000 * delta_temp / delta_time_ms; // °C/s
+}
