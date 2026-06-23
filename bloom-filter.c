@@ -51,3 +51,13 @@ bool checkBloomFilter (BloomFilter* bf, uint16_t raw_code) {
 
     return true;
 }
+
+void freeBloomFilter (BloomFilter* bf) {
+    if (bf == NULL || bf->bit_array== NULL) return;
+
+    free(bf->bit_array);
+    
+    bf->bit_array = NULL;
+    bf->num_hash_functions = 0;
+    bf->size_in_bits = 0;
+}
