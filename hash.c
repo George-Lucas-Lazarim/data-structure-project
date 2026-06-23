@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "hash.h"
 
 void initDTCHashTable (DTCHashTable* h, uint16_t size) {
@@ -158,4 +159,21 @@ uint8_t getTotalCollisions (DTCHashTable* h) {
     }
 
     return total_collisions;
+}
+
+bool getRawCodeByOBD2 (DTCHashTable* h, const char* obd_code, uint16_t* out_raw) {
+    if (h == NULL || h->total_elements == 0) return false;
+
+    for (int i = 0; i < h->size; i++) {
+        HashNode* aux = h->table[i];
+
+        while (aux != NULL) {
+            if (strcmp(aux->alert.obd2_code, obd_code) == 0) {
+                *out_raw = aux->alert.raw_code;
+                return true;
+            } else aux = aux->next;
+        }
+    }
+
+    return false;
 }
