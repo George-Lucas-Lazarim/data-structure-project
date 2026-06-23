@@ -95,3 +95,26 @@ DTCAlert* searchDTC (DTCHashTable *h, uint16_t raw_code) {
     
     return NULL;
 }
+
+void freeDTCHashTable (DTCHashTable *h) {
+    if (h == NULL || h->table == NULL) return;
+
+    for (int i = 0; i < h->size; i++) {
+        HashNode* aux = NULL;
+        HashNode* current = h->table[i];
+
+        while (current != NULL) {
+            aux = current->next;
+
+            free(current);
+
+            current = aux;
+        }
+    }
+
+    free(h->table);
+
+    h->table = NULL;
+    h->size = 0;
+    h->total_elements = 0;
+}

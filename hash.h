@@ -28,6 +28,7 @@ int calculateHash (DTCHashTable *h, uint16_t raw_code);
 bool insertDTC (DTCHashTable *h, DTCAlert alert);
 bool removeDTC (DTCHashTable *h, uint16_t raw_code);
 DTCAlert* searchDTC (DTCHashTable *h, uint16_t raw_code);
+void freeDTCHashTable (DTCHashTable *h);
 
 // Funções adicionais
 uint8_t getLongestChain (DTCHashTable *h);
