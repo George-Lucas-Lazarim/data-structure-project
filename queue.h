@@ -16,37 +16,38 @@ typedef struct {
 } StaticCircularQueue;
 
 // Funções básicas
-void initStaticCircularQueue (StaticCircularQueue *q);
-bool enqueueStaticCircularQueue (StaticCircularQueue *q, EngineSensorsData data);
-bool dequeueStaticCircularQueue (StaticCircularQueue *q, EngineSensorsData *data);
-bool searchDataStaticCircularQueue (StaticCircularQueue *q, uint32_t time, EngineSensorsData *data);
+void initStaticCircularQueue (StaticCircularQueue* q);
+bool enqueueStaticCircularQueue (StaticCircularQueue* q, EngineSensorsData data);
+bool dequeueStaticCircularQueue (StaticCircularQueue* q, EngineSensorsData* data);
+bool searchDataStaticCircularQueue (StaticCircularQueue* q, uint32_t time, EngineSensorsData* data);
 
 // Funções adicionais
-float averageRPMStaticCircularQueue (StaticCircularQueue *q);
-float temperatureRateStaticCircularQueue (StaticCircularQueue *q);
-float maxTurboPressureStaticCircularQueue (StaticCircularQueue *q);
+float averageRPMStaticCircularQueue (StaticCircularQueue* q);
+float temperatureRateStaticCircularQueue (StaticCircularQueue* q);
+float maxTurboPressureStaticCircularQueue (StaticCircularQueue* q);
 
 // Fila dinâmica
 typedef struct DynamicQueueNode {
     EngineSensorsData data;
-    struct DynamicQueueNode *next;
+    struct DynamicQueueNode* next;
 } DynamicQueueNode;
 
 typedef struct {
-    DynamicQueueNode *start;
-    DynamicQueueNode *end;
+    DynamicQueueNode* start;
+    DynamicQueueNode* end;
     uint32_t total_elements;
 } DynamicQueue;
 
 // Funções básicas
-void initDynamicQueue (DynamicQueue *q);
-bool enqueueDynamicQueue (DynamicQueue *q, EngineSensorsData data);
-bool dequeueDynamicQueue (DynamicQueue *q, EngineSensorsData *data);
-bool searchDataDynamicQueue (DynamicQueue *q, uint32_t time, EngineSensorsData *data);
+void initDynamicQueue (DynamicQueue* q);
+bool enqueueDynamicQueue (DynamicQueue* q, EngineSensorsData data);
+bool dequeueDynamicQueue (DynamicQueue* q, EngineSensorsData* data);
+bool searchDataDynamicQueue (DynamicQueue* q, uint32_t time, EngineSensorsData* data);
+void freeDynamicQueue (DynamicQueue* q);
 
 // Funções adicionais
-float averageRPMDynamicQueue (DynamicQueue *q);
-float temperatureRateDynamicQueue (DynamicQueue *q);
-float maxTurboPressureDynamicQueue (DynamicQueue *q);
+float averageRPMDynamicQueue (DynamicQueue* q);
+float temperatureRateDynamicQueue (DynamicQueue* q);
+float maxTurboPressureDynamicQueue (DynamicQueue* q);
 
 #endif
