@@ -86,3 +86,9 @@ float getBloomFilterOccupancy (BloomFilter* bf) {
 
     return bits_ligados / bf->size_in_bits;
 }
+
+float estimateFalsePositiveRate (BloomFilter* bf) {
+    if (bf == NULL) return 0.0;
+    
+    return pow(getBloomFilterOccupancy(bf), bf->num_hash_functions); // p^k onde p é a razão ocupado/tamanho e k é o número de hashes
+}
