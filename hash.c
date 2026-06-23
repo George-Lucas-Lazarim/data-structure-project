@@ -53,6 +53,8 @@ bool removeDTC (DTCHashTable *h, uint16_t raw_code) {
 
     int i = calculateHash(h, raw_code);
 
+    if (i == -1) return false;
+
     HashNode* aux = NULL;
     HashNode* current = h->table[i];
 
@@ -66,10 +68,30 @@ bool removeDTC (DTCHashTable *h, uint16_t raw_code) {
 
             return true;
         }
-        
+
         aux = current;
         current = current->next;
     }
 
     return false;
+}
+
+DTCAlert* searchDTC (DTCHashTable *h, uint16_t raw_code) {
+    if (h == NULL) {
+        printf("\nErro! A hash nao foi inicializada");
+        return NULL;
+    } else if (h->total_elements == 0) return NULL;
+
+    int i = calculateHash(h, raw_code);
+
+    if (i == -1) return NULL;
+
+    HashNode* aux = h->table[i];
+
+    while (aux != NULL) {
+        if (aux->alert.raw_code == raw_code) return &(aux->alert);
+        else aux = aux->next;
+    }
+    
+    return NULL;
 }
