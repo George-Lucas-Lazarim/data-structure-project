@@ -155,7 +155,7 @@ uint8_t getTotalCollisions (DTCHashTable* h) {
         }
         
         if (current_collisions == -1) continue;
-        else total_collisions + current_collisions;
+        else total_collisions += current_collisions;
     }
 
     return total_collisions;
