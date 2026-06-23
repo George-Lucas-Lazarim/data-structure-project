@@ -56,8 +56,16 @@ void freeBloomFilter (BloomFilter* bf) {
     if (bf == NULL || bf->bit_array== NULL) return;
 
     free(bf->bit_array);
-    
+
     bf->bit_array = NULL;
     bf->num_hash_functions = 0;
     bf->size_in_bits = 0;
+}
+
+void clearBloomFilter (BloomFilter* bf) {
+    if (bf == NULL || bf->bit_array == NULL) return;
+
+    uint16_t num_bytes = (bf->size_in_bits + 7) / 8;
+
+    for (int i = 0; i < num_bytes; i++) bf->bit_array[i] = 0;
 }
