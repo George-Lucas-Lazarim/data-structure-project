@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include "hash.h"
 
-void initDTCHashTable (DTCHashTable *h, uint16_t size) {
+void initDTCHashTable (DTCHashTable* h, uint16_t size) {
     if (h == NULL) {
         printf("\nErro! O ponteiro da hash esta apontando para NULL");
         return;
@@ -18,11 +18,11 @@ void initDTCHashTable (DTCHashTable *h, uint16_t size) {
     for (int i = 0; i < size; i++) h->table[i] = NULL;
 }
 
-int calculateHash (DTCHashTable *h, uint16_t raw_code) {
+int calculateHash (DTCHashTable* h, uint16_t raw_code) {
     return (h == NULL || h->size == 0) ? -1 : raw_code % h->size;
 }
 
-bool insertDTC (DTCHashTable *h, DTCAlert alert) {
+bool insertDTC (DTCHashTable* h, DTCAlert alert) {
     if (h == NULL) {
         printf("\nErro! A hash nao foi inicializada");
         return false;
@@ -45,7 +45,7 @@ bool insertDTC (DTCHashTable *h, DTCAlert alert) {
     return true;
 }
 
-bool removeDTC (DTCHashTable *h, uint16_t raw_code) {
+bool removeDTC (DTCHashTable* h, uint16_t raw_code) {
     if (h == NULL) {
         printf("\nErro! A hash nao foi inicializada");
         return false;
@@ -76,7 +76,7 @@ bool removeDTC (DTCHashTable *h, uint16_t raw_code) {
     return false;
 }
 
-DTCAlert* searchDTC (DTCHashTable *h, uint16_t raw_code) {
+DTCAlert* searchDTC (DTCHashTable* h, uint16_t raw_code) {
     if (h == NULL) {
         printf("\nErro! A hash nao foi inicializada");
         return NULL;
@@ -96,11 +96,11 @@ DTCAlert* searchDTC (DTCHashTable *h, uint16_t raw_code) {
     return NULL;
 }
 
-void freeDTCHashTable (DTCHashTable *h) {
+void freeDTCHashTable (DTCHashTable* h) {
     if (h == NULL || h->table == NULL) return;
 
     for (int i = 0; i < h->size; i++) {
-        HashNode* aux = NULL;
+        HashNode* aux;
         HashNode* current = h->table[i];
 
         while (current != NULL) {
@@ -117,4 +117,24 @@ void freeDTCHashTable (DTCHashTable *h) {
     h->table = NULL;
     h->size = 0;
     h->total_elements = 0;
+}
+
+uint8_t getLongestChain (DTCHashTable* h) {
+    if (h == NULL || h->total_elements == 0) return 0;
+
+    uint8_t max_chain = 0;
+
+    for (int i = 0; i < h->size; i++) {
+        uint8_t current_chain = 0;
+        HashNode* aux = h->table[i];
+
+        while (aux != NULL) {
+            current_chain++;
+            aux = aux->next;
+        }
+
+        if (current_chain > max_chain) max_chain = current_chain;
+    }
+
+    return max_chain;
 }
