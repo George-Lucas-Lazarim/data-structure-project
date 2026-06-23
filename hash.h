@@ -32,7 +32,7 @@ void freeDTCHashTable (DTCHashTable* h);
 
 // Funções adicionais
 uint8_t getLongestChain (DTCHashTable* h);
-void printHashDistribuition (DTCHashTable* h);
+uint8_t getTotalCollisions (DTCHashTable* h);
 bool getRawCodeByOBD2 (DTCHashTable* h, const char* obd_code, uint16_t* out_raw);
 
 #endif
