@@ -17,3 +17,30 @@ void initDTCHashTable (DTCHashTable *h, uint16_t size) {
 
     for (int i = 0; i < size; i++) h->table[i] = NULL;
 }
+
+int calculateHash (DTCHashTable *h, uint16_t raw_code) {
+    return (h == NULL || h->size == 0) ? -1 : raw_code % h->size;
+}
+
+bool insertDTC (DTCHashTable *h, DTCAlert alert) {
+    if (h == NULL) {
+        printf("\nErro! A hash nao foi inicializada");
+        return false;
+    }
+
+    int i = calculateHash(h, alert.raw_code);
+
+    if (i == -1) return false;
+
+    HashNode* newNode = (HashNode*) malloc (sizeof(HashNode));
+
+    if (newNode == NULL) return false;
+
+    newNode->alert = alert;
+    newNode->next = h->table[i];
+
+    h->table[i] = newNode;
+    h->total_elements++;
+
+    return true;
+}
