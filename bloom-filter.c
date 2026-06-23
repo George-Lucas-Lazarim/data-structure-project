@@ -28,9 +28,26 @@ void insertBloomFilter (BloomFilter* bf, uint16_t raw_code) {
 
     for (int i = 0; i < bf->num_hash_functions; i++) {
         uint16_t bit_index = (raw_code * (i + 1) * 73) % bf->size_in_bits;
-        uint16_t byte_index = (uint8_t) bit_index / 8;
+        uint16_t byte_index = bit_index / 8;
         uint8_t bit_offset = bit_index % 8;
 
         bf->bit_array[byte_index] |= (1 << bit_offset);
     }
+}
+
+bool checkBloomFilter (BloomFilter* bf, uint16_t raw_code) {
+    if (bf == NULL) {
+        printf("\nErro! O bloom filter nao foi inicializado");
+        return false;
+    } else if (bf->bit_array == NULL) return false;
+
+    for (int i = 0; i < bf->num_hash_functions; i++) {
+        uint16_t bit_index = (raw_code * (i + 1) * 73) % bf->size_in_bits;
+        uint16_t byte_index = bit_index / 8;
+        uint8_t bit_offset = bit_index % 8;
+
+        if ((bf->bit_array[byte_index] & (1 << bit_offset)) == 0) return false;
+    }
+
+    return true;
 }
