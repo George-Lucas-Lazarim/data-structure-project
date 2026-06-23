@@ -31,7 +31,7 @@ void insertBloomFilter (BloomFilter* bf, uint16_t raw_code) {
         uint16_t byte_index = bit_index / 8;
         uint8_t bit_offset = bit_index % 8;
 
-        bf->bit_array[byte_index] |= (1 << bit_offset);
+        bf->bit_array[byte_index] |= (1 << bit_offset); // 
     }
 }
 
@@ -68,4 +68,21 @@ void clearBloomFilter (BloomFilter* bf) {
     uint16_t num_bytes = (bf->size_in_bits + 7) / 8;
 
     for (int i = 0; i < num_bytes; i++) bf->bit_array[i] = 0;
+}
+
+float getBloomFilterOccupancy (BloomFilter* bf) {
+    if (bf == NULL || bf->bit_array == NULL || bf->size_in_bits == 0) return 0.0;
+
+    float bits_ligados = 0;
+    uint16_t num_bytes = (bf->size_in_bits + 7) / 8;
+
+    for (int i = 0; i < num_bytes; i++) {
+        // Bytes (8 bits)
+        for (int j = 0; j < 8; j++) {
+            // Testa cada bit
+            if ((bf->bit_array[i] & (1 << j)) != 0) bits_ligados++;
+        }
+    }
+
+    return bits_ligados / bf->size_in_bits;
 }
