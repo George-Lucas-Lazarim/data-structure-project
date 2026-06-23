@@ -44,3 +44,32 @@ bool insertDTC (DTCHashTable *h, DTCAlert alert) {
 
     return true;
 }
+
+bool removeDTC (DTCHashTable *h, uint16_t raw_code) {
+    if (h == NULL) {
+        printf("\nErro! A hash nao foi inicializada");
+        return false;
+    } else if (h->total_elements == 0) return false;
+
+    int i = calculateHash(h, raw_code);
+
+    HashNode* aux = NULL;
+    HashNode* current = h->table[i];
+
+    while (current != NULL) {
+        if (current->alert.raw_code == raw_code) {
+            if (aux == NULL) h->table[i] = current->next;
+            else aux->next = current->next;
+
+            free(current);
+            h->total_elements--;
+
+            return true;
+        }
+        
+        aux = current;
+        current = current->next;
+    }
+
+    return false;
+}
