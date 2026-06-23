@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include "queue.h"
 
-void initStaticCircularQueue (StaticCircularQueue *q) {
+void initStaticCircularQueue (StaticCircularQueue* q) {
     if (q == NULL) {
         printf("\nErro! O ponteiro da fila circular estatica esta apontando para NULL");
         return;
@@ -13,7 +13,7 @@ void initStaticCircularQueue (StaticCircularQueue *q) {
     q->total_elements = 0;
 }
 
-bool enqueueStaticCircularQueue (StaticCircularQueue *q, EngineSensorsData data) {
+bool enqueueStaticCircularQueue (StaticCircularQueue* q, EngineSensorsData data) {
     if (q == NULL) {
         printf("\nErro! A fila nao foi inicializada");
         return false;
@@ -27,13 +27,13 @@ bool enqueueStaticCircularQueue (StaticCircularQueue *q, EngineSensorsData data)
     return true;
 }
 
-bool dequeueStaticCircularQueue (StaticCircularQueue *q, EngineSensorsData *data) {
+bool dequeueStaticCircularQueue (StaticCircularQueue* q, EngineSensorsData* data) {
     if (q == NULL) {
         printf("\nErro! A fila nao foi inicializada");
         return false;
     } else if (q->total_elements == 0) return false;
 
-    *data = q->data[q->start];
+   * data = q->data[q->start];
 
     q->start = (q->start + 1) % QUEUE_SIZE;
     q->total_elements--;
@@ -41,7 +41,7 @@ bool dequeueStaticCircularQueue (StaticCircularQueue *q, EngineSensorsData *data
     return true;
 }
 
-bool searchDataStaticCircularQueue (StaticCircularQueue *q, uint32_t time, EngineSensorsData *data) {
+bool searchDataStaticCircularQueue (StaticCircularQueue* q, uint32_t time, EngineSensorsData* data) {
     if (q == NULL) {
         printf("\nErro! A fila nao foi inicializada");
         return false;
@@ -51,7 +51,7 @@ bool searchDataStaticCircularQueue (StaticCircularQueue *q, uint32_t time, Engin
 
     for (int j = 0; j < q->total_elements; j++) {
         if (q->data[i].time_ms == time) {
-            *data = q->data[i];
+           * data = q->data[i];
             return true;
         } else i = (i + 1) % QUEUE_SIZE;
     }
@@ -59,7 +59,7 @@ bool searchDataStaticCircularQueue (StaticCircularQueue *q, uint32_t time, Engin
     return false;
 }
 
-float averageRPMStaticCircularQueue (StaticCircularQueue *q) {
+float averageRPMStaticCircularQueue (StaticCircularQueue* q) {
     if (q == NULL) {
         printf("\nErro! A fila nao foi inicializada");
         return 0.0f;
@@ -72,7 +72,7 @@ float averageRPMStaticCircularQueue (StaticCircularQueue *q) {
     return (float) rpm_sum / q->total_elements;
 }
 
-float temperatureRateStaticCircularQueue (StaticCircularQueue *q) {
+float temperatureRateStaticCircularQueue (StaticCircularQueue* q) {
     if (q == NULL) {
         printf("\nErro! A fila nao foi inicializada");
         return 0.0f;
@@ -86,7 +86,7 @@ float temperatureRateStaticCircularQueue (StaticCircularQueue *q) {
     return (float) 1000 * delta_temp / delta_time_ms; // °C/s
 }
 
-float maxTurboPressureStaticCircularQueue (StaticCircularQueue *q) {
+float maxTurboPressureStaticCircularQueue (StaticCircularQueue* q) {
     if (q == NULL) {
         printf("\nErro! A fila nao foi inicializada");
         return 0.0f;
@@ -103,7 +103,7 @@ float maxTurboPressureStaticCircularQueue (StaticCircularQueue *q) {
     return max_turbo_pressure;
 }
 
-void initDynamicQueue (DynamicQueue *q) {
+void initDynamicQueue (DynamicQueue* q) {
     if (q == NULL) {
         printf("\nErro! O ponteiro da fila dinamica esta apontando para NULL");
         return;
@@ -114,13 +114,13 @@ void initDynamicQueue (DynamicQueue *q) {
     q->total_elements = 0;
 }
 
-bool enqueueDynamicQueue (DynamicQueue *q, EngineSensorsData data) {
+bool enqueueDynamicQueue (DynamicQueue* q, EngineSensorsData data) {
     if (q == NULL) {
         printf("\nErro! A fila nao foi inicializada");
         return false;
     }
 
-    DynamicQueueNode *new_node = (DynamicQueueNode*) malloc (sizeof(DynamicQueueNode));
+    DynamicQueueNode* new_node = (DynamicQueueNode*) malloc (sizeof(DynamicQueueNode));
     if (new_node == NULL) return false;
 
     new_node->data = data;
@@ -135,13 +135,13 @@ bool enqueueDynamicQueue (DynamicQueue *q, EngineSensorsData data) {
     return true;
 }
 
-bool dequeueDynamicQueue (DynamicQueue *q, EngineSensorsData *data) {
+bool dequeueDynamicQueue (DynamicQueue* q, EngineSensorsData* data) {
     if (q == NULL) {
         printf("\nErro! A fila nao foi inicializada");
         return false;
     } else if (q->total_elements == 0) return false;
 
-    DynamicQueueNode *aux = q->start;
+    DynamicQueueNode* aux = q->start;
     *data = aux->data;
 
     q->start = q->start->next;
@@ -154,13 +154,13 @@ bool dequeueDynamicQueue (DynamicQueue *q, EngineSensorsData *data) {
     return true;
 }
 
-bool searchDataDynamicQueue (DynamicQueue *q, uint32_t time, EngineSensorsData *data) {
+bool searchDataDynamicQueue (DynamicQueue* q, uint32_t time, EngineSensorsData* data) {
     if (q == NULL) {
         printf("\nErro! A fila nao foi inicializada");
         return false;
     } else if (q->total_elements == 0 || time < 0) return false;
 
-    DynamicQueueNode *aux = q->start;
+    DynamicQueueNode* aux = q->start;
 
     while (aux != NULL) {
         if (aux->data.time_ms == time) {
@@ -172,14 +172,14 @@ bool searchDataDynamicQueue (DynamicQueue *q, uint32_t time, EngineSensorsData *
     return false;
 }
 
-float averageRPMDynamicQueue (DynamicQueue *q) {
+float averageRPMDynamicQueue (DynamicQueue* q) {
     if (q == NULL) {
         printf("\nErro! A fila nao foi inicializada");
         return 0.0f;
     } else if (q->total_elements == 0) return 0.0f;
 
     uint32_t rpm_sum = 0;
-    DynamicQueueNode *aux = q->start;
+    DynamicQueueNode* aux = q->start;
 
     while (aux != NULL) {
         rpm_sum += aux->data.rpm;
@@ -189,7 +189,7 @@ float averageRPMDynamicQueue (DynamicQueue *q) {
     return (float) rpm_sum / q->total_elements;
 }
 
-float temperatureRateDynamicQueue (DynamicQueue *q) {
+float temperatureRateDynamicQueue (DynamicQueue* q) {
     if (q == NULL) {
         printf("\nErro! A fila nao foi inicializada");
         return 0.0f;
@@ -203,14 +203,14 @@ float temperatureRateDynamicQueue (DynamicQueue *q) {
     return (float) 1000 * delta_temp / delta_time_ms; // °C/s
 }
 
-float maxTurboPressureDynamicQueue (DynamicQueue *q) {
+float maxTurboPressureDynamicQueue (DynamicQueue* q) {
     if (q == NULL) {
         printf("\nErro! A fila nao foi inicializada");
         return 0.0f;
     } else if (q->total_elements == 0) return 0.0f;
 
     float max_turbo_pressure = -100.0f;
-    DynamicQueueNode *aux = q->start;
+    DynamicQueueNode* aux = q->start;
 
     while (aux != NULL) {
         if (aux->data.turbo_pressure > max_turbo_pressure) max_turbo_pressure = aux->data.turbo_pressure;
@@ -218,4 +218,22 @@ float maxTurboPressureDynamicQueue (DynamicQueue *q) {
     }
 
     return max_turbo_pressure;
+}
+
+void freeDynamicQueue (DynamicQueue* q) {
+    if (q == NULL || q->total_elements == 0) return;
+
+    DynamicQueueNode* aux;
+    DynamicQueueNode* current = q->end;
+
+    while (current != NULL) {
+        aux = current->next;
+
+        free(current);
+
+        current = aux;
+    }
+
+    q->start = q->end = NULL;
+    q->total_elements = 0;
 }
