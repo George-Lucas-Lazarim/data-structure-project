@@ -19,6 +19,7 @@ typedef struct HashNode {
 typedef struct {
     HashNode **table; // Vetor dinâmico de ponteiros para os nós
     uint16_t size;
+    uint8_t total_elements;
 } DTCHashTable;
 
 // Funções básicas
