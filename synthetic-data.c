@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <time.h>
+#include <math.h>
 
 static uint32_t current_time_ms = 0;
 static float current_rpm = 900.0f;
@@ -19,6 +20,14 @@ static bool engine_working = true;
 static float randomFloat (float min, float max) {
     float scale = rand() / (float) RAND_MAX; // 0 ~ 1
     return min + scale * (max - min);
+}
+
+// https://claude.ai/share/51315e15-16f0-43f0-b793-d2a8dfd3ef7a Conversa com o Claude
+static float randomGaussian (float mean, float stddev) {
+    float u1 = (rand() + 1.0f) / ((float) RAND_MAX + 1.0f); // Uniforme em (0,1] — vira o raio
+    float u2 = rand() / ((float) RAND_MAX + 1.0f);          // Uniforme em [0,1)  — vira o ângulo
+    float z = sqrtf(-2.0f * logf(u1)) * cosf(2.0f * 3.14159265f * u2); // Normal padrão (μ=0, σ=1)
+    return mean + z * stddev;                               // Desloca e escala para μ e σ desejados
 }
 
 void initEngineSimulation (void) {
@@ -73,7 +82,7 @@ EngineSensorsData getNextSensorsDataBlock (void) {
         } else current_boost = randomFloat(-0.6f, -0.4f);
     } else current_boost = randomFloat(-0.6f, -0.1f);
 
-    data.turbo_pressure = current_boost + randomFloat(-0.02f, 0.02f);
+    data.turbo_pressure = current_boost + randomGaussian(0.0f, 0.01f);
 
     // RPM
     if (data.tps > 0) {
@@ -86,13 +95,13 @@ EngineSensorsData getNextSensorsDataBlock (void) {
     } else current_rpm -= 180.0f; // Freio motor
 
     if (current_rpm > 7200.0f) current_rpm = 7200.0f; // Corte
-    else if (current_rpm < 900.0f) current_rpm = 900.0f + randomFloat(-15.0, 15.0); // Leve oscilação na marcha lenta
+    else if (current_rpm < 900.0f) current_rpm = 900.0f + randomGaussian(0.0f, 7.0f); // Leve oscilação na marcha lenta
 
     data.rpm = (uint16_t) current_rpm;
 
     // Pressão do Óleo
     if (oil_pump_working) {
-        data.oil_pressure = 1.0f + (current_rpm / 1800.0f) + randomFloat(-0.1f, 0.1f);
+        data.oil_pressure = 1.0f + (current_rpm / 1800.0f) + randomGaussian(0.0f, 0.05f);
 
         if (data.oil_pressure > 5.0f) data.oil_pressure = 5.0f; // Alívio da bomba
         if (!turbo_working) data.oil_pressure -= 0.7f;
