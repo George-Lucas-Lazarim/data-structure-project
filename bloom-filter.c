@@ -3,6 +3,15 @@
 #include <math.h>
 #include "bloom-filter.h"
 
+
+static uint32_t bloomBaseHash (uint16_t raw_code, uint32_t seed) {
+    uint32_t h = (uint32_t) raw_code * 2654435761u + seed; // constante de Knuth (~2^32/φ)
+    h ^= h >> 15;
+    h *= 2246822519u;
+    h ^= h >> 13;
+    return h;
+}
+
 void initBloomFilter (BloomFilter* bf, uint16_t size_in_bits, uint8_t num_hashes) {
     if (bf == NULL) {
         printf("\nErro! O ponteiro do bloom filter esta apontando para NULL");
@@ -27,8 +36,11 @@ void insertBloomFilter (BloomFilter* bf, uint16_t raw_code) {
         return;
     } else if (bf->bit_array == NULL) return;
 
+    uint32_t h1 = bloomBaseHash(raw_code, 0);
+    uint32_t h2 = bloomBaseHash(raw_code, 0x9E3779B9u) | 1u; // | 1 garante h2 ímpar (nunca 0)
+
     for (int i = 0; i < bf->num_hash_functions; i++) {
-        uint16_t bit_index = (raw_code * (i + 1) * 73) % bf->size_in_bits;
+        uint16_t bit_index = (h1 + (uint32_t) i * h2) % bf->size_in_bits;
         uint16_t byte_index = bit_index / 8;
         uint8_t bit_offset = bit_index % 8;
 
@@ -42,8 +54,11 @@ bool checkBloomFilter (BloomFilter* bf, uint16_t raw_code) {
         return false;
     } else if (bf->bit_array == NULL) return false;
 
+    uint32_t h1 = bloomBaseHash(raw_code, 0);
+    uint32_t h2 = bloomBaseHash(raw_code, 0x9E3779B9u) | 1u;
+
     for (int i = 0; i < bf->num_hash_functions; i++) {
-        uint16_t bit_index = (raw_code * (i + 1) * 73) % bf->size_in_bits;
+        uint16_t bit_index = (h1 + (uint32_t) i * h2) % bf->size_in_bits;
         uint16_t byte_index = bit_index / 8;
         uint8_t bit_offset = bit_index % 8;
 
