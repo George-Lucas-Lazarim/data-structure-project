@@ -43,16 +43,14 @@ bool insertMaxHeap (MaxHeap* mh, DTCAlert* alert) {
     return true;
 }
 
-DTCAlert extractMax (MaxHeap* mh) {
+DTCAlert* extractMax (MaxHeap* mh) {
     if (mh == NULL || mh->data == NULL || mh->size == 0) {
         printf("\nErro! A max-heap nao foi inicializada");
-        DTCAlert empty = {0}; // struct vazia (preenchida com zeros)
-        return empty;
+        return NULL;
     }
 
-    DTCAlert extracted = *(mh->data[0]);
+    DTCAlert* extracted = mh->data[0];
 
-    free(mh->data[0]);
     mh->size--;
 
     if (mh->size == 0) return extracted;
@@ -81,4 +79,13 @@ DTCAlert extractMax (MaxHeap* mh) {
     }
     
     return extracted;
+}
+
+void freeMaxHeap (MaxHeap* mh) {
+    if (mh == NULL || mh->data == NULL) return;
+
+    free(mh->data);
+    mh->data = NULL;
+
+    mh->capacity = mh->size = 0;
 }
