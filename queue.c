@@ -9,7 +9,7 @@ void initStaticCircularQueue (StaticCircularQueue* q) {
     }
 
     q->start = 0;
-    q->end = -1;
+    q->end = QUEUE_SIZE - 1; // (9999+1) % 10000 = 0
     q->total_elements = 0;
 }
 
@@ -158,7 +158,7 @@ bool searchDataDynamicQueue (DynamicQueue* q, uint32_t time, EngineSensorsData* 
     if (q == NULL) {
         printf("\nErro! A fila nao foi inicializada");
         return false;
-    } else if (q->total_elements == 0 || time < 0) return false;
+    } else if (q->total_elements == 0) return false;
 
     DynamicQueueNode* aux = q->start;
 

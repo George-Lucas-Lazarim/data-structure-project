@@ -143,7 +143,7 @@ uint8_t getLongestChain (DTCHashTable* h) {
 uint16_t getTotalCollisions (DTCHashTable* h) {
     if (h == NULL || h->total_elements == 0) return 0;
 
-    uint8_t total_collisions = 0;
+    uint16_t total_collisions = 0;
 
     for (int i = 0; i < h->size; i++) {
         int current_collisions = -1;
