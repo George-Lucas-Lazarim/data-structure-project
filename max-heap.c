@@ -16,3 +16,29 @@ void initMaxHeap (MaxHeap* mh, uint16_t capacity) {
 
     for (int i = 0; i < capacity; i++) mh->data[i] = NULL;
 }
+
+bool insertMaxHeap (MaxHeap* mh, DTCAlert* alert) {
+    if (mh == NULL) {
+        printf("\nErro! A max-heap nao foi inicializada");
+        return false;
+    } else if (mh->data == NULL || mh->size == mh->capacity) return false;
+
+    mh->data[mh->size] = alert;
+
+    uint16_t i = mh->size;
+    uint16_t parent_i = (i - 1) / 2;
+
+    mh->size++;
+
+    while (i > 0 && mh->data[i]->severity > mh->data[parent_i]->severity) {
+        DTCAlert* aux = mh->data[parent_i];
+
+        mh->data[parent_i] = mh->data[i];
+        mh->data[i] = aux;
+
+        i = parent_i;
+        parent_i = (i - 1) / 2;
+    }
+
+    return true;
+}
