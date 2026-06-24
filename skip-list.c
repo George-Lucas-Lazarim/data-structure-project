@@ -15,7 +15,7 @@ static SkipListNode* createSkipListNode (EngineSensorsData data, uint8_t level) 
 
     if (newNode == NULL) return NULL;
 
-    newNode->forward = (SkipListNode**) malloc (level * sizeof(SkipListNode));
+    newNode->forward = (SkipListNode**) malloc (level * sizeof(SkipListNode*));
 
     if (newNode->forward == NULL) {
         free(newNode);
@@ -66,11 +66,10 @@ bool insertSkipList (SkipList* sl, EngineSensorsData data) {
     SkipListNode* current = sl->header;
 
     for (int i = sl->level - 1; i >= 0; i--) {
-        while (current->forward[i] != NULL && current->forward[i]->data.time_ms < data.time_ms) {
+        while (current->forward[i] != NULL && current->forward[i]->data.time_ms < data.time_ms)
             current = current->forward[i];
 
-            update[i] = current;
-        }
+        update[i] = current;
     }
 
     current = current->forward[0];

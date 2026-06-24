@@ -224,13 +224,11 @@ void freeDynamicQueue (DynamicQueue* q) {
     if (q == NULL || q->total_elements == 0) return;
 
     DynamicQueueNode* aux;
-    DynamicQueueNode* current = q->end;
+    DynamicQueueNode* current = q->start;
 
     while (current != NULL) {
         aux = current->next;
-
         free(current);
-
         current = aux;
     }
 
