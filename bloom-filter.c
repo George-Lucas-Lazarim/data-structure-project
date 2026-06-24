@@ -73,7 +73,7 @@ void clearBloomFilter (BloomFilter* bf) {
 float getBloomFilterOccupancy (BloomFilter* bf) {
     if (bf == NULL || bf->bit_array == NULL || bf->size_in_bits == 0) return 0.0;
 
-    float bits_ligados = 0;
+    uint16_t bits_ligados = 0;
     uint16_t num_bytes = (bf->size_in_bits + 7) / 8;
 
     for (int i = 0; i < num_bytes; i++) {
@@ -84,7 +84,7 @@ float getBloomFilterOccupancy (BloomFilter* bf) {
         }
     }
 
-    return bits_ligados / bf->size_in_bits;
+    return (float) bits_ligados / bf->size_in_bits;
 }
 
 float estimateFalsePositiveRate (BloomFilter* bf) {
