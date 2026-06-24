@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "max-heap.h"
 
 void initMaxHeap (MaxHeap* mh, uint16_t capacity) {

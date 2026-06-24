@@ -12,7 +12,7 @@ static float current_boost = -0.6f;
 
 // Variáveis de Estresse e Dano
 static float engine_stress = 0.0f;
-static bool turbo_blown = true;
+static bool turbo_working = true;
 static bool oil_pump_working = true;
 static bool engine_working = true;
 
@@ -29,7 +29,7 @@ void initEngineSimulation (void) {
     current_boost = -0.6f;
 
     engine_stress = 0.0f;
-    turbo_blown = true;
+    turbo_working = true;
     oil_pump_working = true;
     engine_working = true;
 }
@@ -61,7 +61,7 @@ EngineSensorsData getNextSensorsDataBlock (void) {
     else data.tps = 0; // 30%
 
     // Turbocompressor
-    if (turbo_blown) {
+    if (turbo_working) {
         if (data.tps > 20 && current_rpm > 2500.0f) {
             float spool_factor = (current_rpm - 2500.0f) / 4500.0f;
             float tps_factor = data.tps / 100.0f;
@@ -80,7 +80,7 @@ EngineSensorsData getNextSensorsDataBlock (void) {
         float boost_assist = 1.0f;
 
         if (current_boost > 0) boost_assist = current_boost * 2.0f;
-        if (!turbo_blown) boost_assist = 0.7f; // Se a turbina quebrou, o giro sobe mais devagar
+        if (!turbo_working) boost_assist = 0.7f; // Se a turbina quebrou, o giro sobe mais devagar
 
         current_rpm += data.tps * 3.5f * boost_assist;
     } else current_rpm -= 180.0f; // Freio motor
@@ -95,7 +95,7 @@ EngineSensorsData getNextSensorsDataBlock (void) {
         data.oil_pressure = 1.0f + (current_rpm / 1800.0f) + randomFloat(-0.1f, 0.1f);
 
         if (data.oil_pressure > 5.0f) data.oil_pressure = 5.0f; // Alívio da bomba
-        if (!turbo_blown) data.oil_pressure -= 0.7f;
+        if (!turbo_working) data.oil_pressure -= 0.7f;
         if (data.oil_pressure < 0) data.oil_pressure = 0.0f;
     } else data.oil_pressure = 0.0f;
 
@@ -118,7 +118,7 @@ EngineSensorsData getNextSensorsDataBlock (void) {
     if (engine_stress > 250.0f) {
         float random_number = randomFloat(0.0f, 10000.0f);
 
-        if (random_number < (engine_stress * 0.25f) && turbo_blown) turbo_blown = false; // Turbina quebrou
+        if (random_number < (engine_stress * 0.25f) && turbo_working) turbo_working = false; // Turbina quebrou
         else if (random_number < (engine_stress * 0.05f) && oil_pump_working) oil_pump_working = false;
     }
 

@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 #include "bloom-filter.h"
 
 void initBloomFilter (BloomFilter* bf, uint16_t size_in_bits, uint8_t num_hashes) {

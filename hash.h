@@ -19,7 +19,7 @@ typedef struct HashNode {
 typedef struct {
     HashNode** table; // Vetor dinâmico de ponteiros para os nós
     uint16_t size;
-    uint8_t total_elements;
+    uint16_t total_elements;
 } DTCHashTable;
 
 // Funções básicas
@@ -32,7 +32,7 @@ void freeDTCHashTable (DTCHashTable* h);
 
 // Funções adicionais
 uint8_t getLongestChain (DTCHashTable* h);
-uint8_t getTotalCollisions (DTCHashTable* h);
+uint16_t getTotalCollisions (DTCHashTable* h);
 bool getRawCodeByOBD2 (DTCHashTable* h, const char* obd_code, uint16_t* out_raw);
 
 #endif

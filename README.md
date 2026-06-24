@@ -31,7 +31,7 @@ A Tabela Hash atua como o dicionário de calibração, traduzindo o código brut
 
 Lida com o tratamento das anomalias detectadas pela etapa anterior utilizando duas estruturas em conjunto para evitar sobrecarga. Antes de acionar um alerta custoso, o identificador do erro passa por um Bloom Filter, um filtro probabilístico que verifica rapidamente se a mesma falha já foi reportada na janela de tempo atual. Se sim, o alerta é descartado.
 
-Caso o erro seja diferente dos já reportados, ele entra em uma Heap Min-Max. Problemas graves (como perda de lubrificação) sobem imediatamente para o topo do vetor em tempo $O(\log n)$, forçando o sistema a priorizar ações de segurança rigorosas antes de processar alertas menores.
+Caso o erro seja diferente dos já reportados, ele entra em uma Heap binária (max-heap). Problemas graves (como perda de lubrificação) sobem imediatamente para o topo do vetor em tempo $O(\log n)$, forçando o sistema a priorizar ações de segurança rigorosas antes de processar alertas menores.
 
 ### Armazenamento Histórico
 
