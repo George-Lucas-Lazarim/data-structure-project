@@ -120,16 +120,16 @@ bool enqueueDynamicQueue (DynamicQueue* q, EngineSensorsData data) {
         return false;
     }
 
-    DynamicQueueNode* new_node = (DynamicQueueNode*) malloc (sizeof(DynamicQueueNode));
-    if (new_node == NULL) return false;
+    DynamicQueueNode* newNode = (DynamicQueueNode*) malloc (sizeof(DynamicQueueNode));
+    if (newNode == NULL) return false;
 
-    new_node->data = data;
-    new_node->next = NULL;
+    newNode->data = data;
+    newNode->next = NULL;
 
-    if (q->total_elements == 0) q->start = new_node;
-    else q->end->next = new_node;
+    if (q->total_elements == 0) q->start = newNode;
+    else q->end->next = newNode;
 
-    q->end = new_node;
+    q->end = newNode;
     q->total_elements++;
 
     return true;
