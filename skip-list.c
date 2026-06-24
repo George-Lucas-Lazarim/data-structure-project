@@ -48,6 +48,7 @@ void initSkipList (SkipList* sl) {
         return;
     }
 
+    // O header é um nó falso que se encontra no último nível (auxilia na busca)
     for (int i = 0; i < SKIPLIST_MAX_LEVEL; i++) sl->header->forward[i] = NULL;
 
     sl->header->level = SKIPLIST_MAX_LEVEL;
@@ -61,11 +62,11 @@ bool insertSkipList (SkipList* sl, EngineSensorsData data) {
         return false;
     }
 
-    SkipListNode* update[SKIPLIST_MAX_LEVEL];
+    SkipListNode* update[SKIPLIST_MAX_LEVEL]; // Guarda os nós cuja o time_ms seja menor
     SkipListNode* current = sl->header;
 
     for (int i = sl->level - 1; i >= 0; i--) {
-        while (current->forward[i] != NULL && current->forward[i]->data.time_ms) {
+        while (current->forward[i] != NULL && current->forward[i]->data.time_ms < data.time_ms) {
             current = current->forward[i];
 
             update[i] = current;
