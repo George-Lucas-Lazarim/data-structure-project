@@ -6,14 +6,15 @@
 #include "hash.h" // struct DTCAlert
 
 typedef struct {
-    DTCAlert* data;
+    DTCAlert** data;
     uint16_t capacity;
     uint16_t size;
 } MaxHeap;
 
+// Funções básicas
 void initMaxHeap (MaxHeap* mh, uint16_t capacity);
 bool insertMaxHeap (MaxHeap* mh, DTCAlert* alert);
-DTCAlert extractMax (MaxHeap* pq);
+DTCAlert* extractMax (MaxHeap* pq);
 void freeMaxHeap (MaxHeap* pq);
 
 #endif
