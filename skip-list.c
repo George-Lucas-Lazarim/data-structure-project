@@ -157,3 +157,25 @@ bool removeSkipList (SkipList* sl, uint32_t time_ms) {
  
     return true;
 }
+
+void freeSkipList (SkipList* sl) {
+    if (sl == NULL || sl->header == NULL) return;
+ 
+    SkipListNode* current = sl->header->forward[0];
+ 
+    while (current != NULL) {
+        SkipListNode* next = current->forward[0];
+ 
+        free(current->forward);
+        free(current);
+ 
+        current = next;
+    }
+ 
+    free(sl->header->forward);
+    free(sl->header);
+ 
+    sl->header = NULL;
+    sl->level = 0;
+    sl->total_elements = 0;
+}
