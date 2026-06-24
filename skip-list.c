@@ -122,3 +122,38 @@ bool searchSkipList (SkipList* sl, uint32_t time_ms, EngineSensorsData* out) {
  
     return false;
 }
+
+bool removeSkipList (SkipList* sl, uint32_t time_ms) {
+    if (sl == NULL || sl->header == NULL) {
+        printf("\nErro! A skip list nao foi inicializada");
+        return false;
+    }
+ 
+    SkipListNode* update[SKIPLIST_MAX_LEVEL];
+    SkipListNode* current = sl->header;
+ 
+    for (int i = sl->level - 1; i >= 0; i--) {
+        while (current->forward[i] != NULL && current->forward[i]->data.time_ms < time_ms)
+            current = current->forward[i];
+ 
+        update[i] = current;
+    }
+ 
+    current = current->forward[0];
+ 
+    if (current == NULL || current->data.time_ms != time_ms) return false;
+ 
+    for (int i = 0; i < sl->level; i++) {
+        if (update[i]->forward[i] != current) break;
+        update[i]->forward[i] = current->forward[i];
+    }
+ 
+    free(current->forward);
+    free(current);
+ 
+    while (sl->level > 1 && sl->header->forward[sl->level - 1] == NULL) sl->level--;
+ 
+    sl->total_elements--;
+ 
+    return true;
+}
