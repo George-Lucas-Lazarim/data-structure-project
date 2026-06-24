@@ -42,3 +42,43 @@ bool insertMaxHeap (MaxHeap* mh, DTCAlert* alert) {
 
     return true;
 }
+
+DTCAlert extractMax (MaxHeap* mh) {
+    if (mh == NULL || mh->data == NULL || mh->size == 0) {
+        printf("\nErro! A max-heap nao foi inicializada");
+        DTCAlert empty = {0}; // struct vazia (preenchida com zeros)
+        return empty;
+    }
+
+    DTCAlert extracted = *(mh->data[0]);
+
+    free(mh->data[0]);
+    mh->size--;
+
+    if (mh->size == 0) return extracted;
+
+    mh->data[0] = mh->data[mh->size];
+    mh->data[mh->size] = NULL;
+
+    uint16_t i = 0;
+
+    while (true) {
+        uint16_t parent = i;
+        uint16_t son_left = (2 * i) + 1;
+        uint16_t son_right = (2 * i) + 2;
+
+        if (son_left < mh->size && mh->data[son_left]->severity > mh->data[parent]->severity) parent = son_left;
+
+        if (son_right < mh->size && mh->data[son_right]->severity > mh->data[parent]->severity) parent = son_right;
+
+        if (parent == i) break;
+
+        DTCAlert* aux = mh->data[i];
+        mh->data[i] = mh->data[parent];
+        mh->data[parent] = aux;
+
+        i = parent;
+    }
+    
+    return extracted;
+}

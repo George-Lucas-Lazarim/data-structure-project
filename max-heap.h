@@ -14,7 +14,7 @@ typedef struct {
 // Funções básicas
 void initMaxHeap (MaxHeap* mh, uint16_t capacity);
 bool insertMaxHeap (MaxHeap* mh, DTCAlert* alert);
-DTCAlert* extractMax (MaxHeap* pq);
-void freeMaxHeap (MaxHeap* pq);
+DTCAlert extractMax (MaxHeap* mh);
+void freeMaxHeap (MaxHeap* mh);
 
 #endif
