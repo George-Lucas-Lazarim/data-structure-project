@@ -146,7 +146,7 @@ int main (void) {
     long long stat_mem = (long long) sizeof(StaticCircularQueue);
 
     printf("\nsizeof(EngineSensorsData)=%zu B | sizeof(DynamicQueueNode)=%zu B | sizeof(StaticCircularQueue)=%lld B\n\n", elem, node, stat_mem);
-    printf("%-9s %6s %12s %12s %12s %12s\n", "estrutura", "n", "enq(ns/op)", "deq(ns/op)", "ciclo(ns/op)", "mem(bytes)");
+    printf("%-9s %6s %12s %12s %12s %12s\n", "structure", "n", "enq(ns/op)", "deq(ns/op)", "ciclo(ns/op)", "mem(bytes)");
 
     for (int n = N_MIN; n <= N_MAX; n += N_STEP) {
         long long se, sd, sc, de, dd, dc;

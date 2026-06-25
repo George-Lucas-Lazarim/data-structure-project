@@ -5,9 +5,11 @@
 #include <stdbool.h>
 #include "synthetic-data.h" // struct EngineSensorsData
 
-#define SKIPLIST_MAX_LEVEL 16
+#define SKIPLIST_MAX_LEVEL 17
 
-#define SKIPLIST_P_THRESHOLD (RAND_MAX / 2) // RAND_MAX / 2 => p ~ 0.5
+#ifndef SKIPLIST_P_THRESHOLD
+#define SKIPLIST_P_THRESHOLD (RAND_MAX / 2) // p ~ 0.5 Por padrão
+#endif
 
 typedef struct SkipListNode {
     EngineSensorsData data;
